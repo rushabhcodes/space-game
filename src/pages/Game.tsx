@@ -113,19 +113,167 @@ export const Game: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             className="text-center space-y-8 p-8 bg-black/40 backdrop-blur-md rounded-3xl border border-space-blue/20 shadow-2xl max-w-4xl mx-4"
           >
-            {/* Space station icon */}
+            {/* Custom Space Rescue Logo */}
             <motion.div
               initial={{ scale: 0.8, rotate: -10 }}
               animate={{ scale: 1, rotate: 0 }}
               transition={{ duration: 1, ease: "easeOut" }}
               className="flex justify-center mb-6"
             >
-              <img
-                src="https://cdn-icons-png.flaticon.com/512/2488/2488082.png"
-                alt="Space Station"
-                className="w-24 h-24 filter invert brightness-0 contrast-100"
-                style={{ filter: 'invert(1) sepia(1) saturate(3) hue-rotate(180deg) brightness(1.2)' }}
-              />
+              <motion.svg
+                width="120"
+                height="120"
+                viewBox="0 0 120 120"
+                className="drop-shadow-2xl"
+                animate={{
+                  filter: [
+                    "drop-shadow(0 0 10px rgba(0, 212, 255, 0.5))",
+                    "drop-shadow(0 0 20px rgba(138, 43, 226, 0.8))",
+                    "drop-shadow(0 0 15px rgba(0, 255, 136, 0.6))",
+                    "drop-shadow(0 0 10px rgba(0, 212, 255, 0.5))"
+                  ]
+                }}
+                transition={{ duration: 4, repeat: Infinity }}
+              >
+                {/* Outer ring - space station */}
+                <motion.circle
+                  cx="60"
+                  cy="60"
+                  r="50"
+                  fill="none"
+                  stroke="url(#outerGradient)"
+                  strokeWidth="3"
+                  strokeDasharray="8 4"
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                  style={{ transformOrigin: "60px 60px" }}
+                />
+                
+                {/* Inner ring */}
+                <motion.circle
+                  cx="60"
+                  cy="60"
+                  r="35"
+                  fill="none"
+                  stroke="url(#innerGradient)"
+                  strokeWidth="2"
+                  strokeDasharray="4 2"
+                  animate={{ rotate: -360 }}
+                  transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+                  style={{ transformOrigin: "60px 60px" }}
+                />
+                
+                {/* Central spaceship */}
+                <motion.g
+                  animate={{
+                    y: [0, -2, 0],
+                    scale: [1, 1.05, 1]
+                  }}
+                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                >
+                  {/* Ship body */}
+                  <ellipse cx="60" cy="60" rx="12" ry="20" fill="url(#shipGradient)" />
+                  
+                  {/* Ship wings */}
+                  <path
+                    d="M45 55 L55 60 L45 65 Z"
+                    fill="url(#wingGradient)"
+                  />
+                  <path
+                    d="M75 55 L65 60 L75 65 Z"
+                    fill="url(#wingGradient)"
+                  />
+                  
+                  {/* Engine glow */}
+                  <motion.ellipse
+                    cx="60"
+                    cy="75"
+                    rx="4"
+                    ry="8"
+                    fill="url(#engineGradient)"
+                    animate={{
+                      opacity: [0.6, 1, 0.6],
+                      ry: [6, 10, 6]
+                    }}
+                    transition={{ duration: 1, repeat: Infinity, ease: "easeInOut" }}
+                  />
+                </motion.g>
+                
+                {/* Rescue beam */}
+                <motion.path
+                  d="M60 40 L50 20 L70 20 Z"
+                  fill="url(#beamGradient)"
+                  animate={{
+                    opacity: [0.3, 0.8, 0.3],
+                    scaleY: [0.8, 1.2, 0.8]
+                  }}
+                  transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                  style={{ transformOrigin: "60px 40px" }}
+                />
+                
+                {/* Stars */}
+                {[
+                  { x: 20, y: 25 },
+                  { x: 100, y: 30 },
+                  { x: 15, y: 90 },
+                  { x: 105, y: 85 },
+                  { x: 25, y: 55 },
+                  { x: 95, y: 65 }
+                ].map((star, i) => (
+                  <motion.circle
+                    key={i}
+                    cx={star.x}
+                    cy={star.y}
+                    r="1.5"
+                    fill="#ffffff"
+                    animate={{
+                      opacity: [0.3, 1, 0.3],
+                      scale: [0.8, 1.2, 0.8]
+                    }}
+                    transition={{
+                      duration: 2 + i * 0.3,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                      delay: i * 0.2
+                    }}
+                  />
+                ))}
+                
+                {/* Gradients */}
+                <defs>
+                  <linearGradient id="outerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#00d4ff" />
+                    <stop offset="50%" stopColor="#8a2be2" />
+                    <stop offset="100%" stopColor="#00ff88" />
+                  </linearGradient>
+                  
+                  <linearGradient id="innerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#00ff88" />
+                    <stop offset="50%" stopColor="#ff6b35" />
+                    <stop offset="100%" stopColor="#00d4ff" />
+                  </linearGradient>
+                  
+                  <linearGradient id="shipGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#e0e7ff" />
+                    <stop offset="100%" stopColor="#8b5cf6" />
+                  </linearGradient>
+                  
+                  <linearGradient id="wingGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#00d4ff" />
+                    <stop offset="100%" stopColor="#0ea5e9" />
+                  </linearGradient>
+                  
+                  <linearGradient id="engineGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stopColor="#ff6b35" />
+                    <stop offset="100%" stopColor="#ffeb3b" />
+                  </linearGradient>
+                  
+                  <linearGradient id="beamGradient" x1="0%" y1="100%" x2="0%" y2="0%">
+                    <stop offset="0%" stopColor="rgba(0, 255, 136, 0.8)" />
+                    <stop offset="100%" stopColor="rgba(0, 255, 136, 0.1)" />
+                  </linearGradient>
+                </defs>
+              </motion.svg>
             </motion.div>
             
             <motion.h1
